@@ -33,7 +33,7 @@ public:
         createGraphicsPipeline();
         createFramebuffers();
         createCommandPool();
-        createCommandBuffer();
+        createCommandBuffers();
         createSyncObjects();
     }
 
@@ -54,6 +54,8 @@ private:
     */
     GLFWwindow* window;
     VkSurfaceKHR surface;
+    bool framebufferResized = false;
+    friend static void framebufferResizeCallback(GLFWwindow* window, int width, int height);
 
 
     /*
@@ -100,10 +102,10 @@ private:
         Command & Sync
     */
     VkCommandPool commandPool;
-    VkCommandBuffer commandBuffer; //freed when commandPool is freed
-    VkSemaphore imageAvailableSemaphore;
-    VkSemaphore renderFinishedSemaphore;
-    VkFence inFlightFence;
+    std::vector<VkCommandBuffer> commandBuffers; //freed when commandPool is freed
+    std::vector<VkSemaphore> imageAvailableSemaphores;
+    std::vector<VkSemaphore> renderFinishedSemaphores;
+    std::vector<VkFence> inFlightFences;
 
 
     /*
@@ -139,6 +141,8 @@ private:
     void createSwapChain();
     VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
     SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
+    void recreateSwapChain();
+    void cleanupSwapChain();
 
 
     /*
@@ -165,7 +169,7 @@ private:
         Command & sync
     */
     void createCommandPool();
-    void createCommandBuffer();
+    void createCommandBuffers();
     void createSyncObjects();
 
     /*

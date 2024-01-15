@@ -1,17 +1,19 @@
 #pragma once
-#include <stdexcept>
-#include "application.h";
+#include "window.h"
 
-
-const uint32_t WIDTH = 800;
-const uint32_t HEIGHT = 600;
+static void framebufferResizeCallback(GLFWwindow* window, int width, int height) {
+    auto app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+    app->framebufferResized = true;
+}
 
 void Application::initWindow() {
 	glfwInit();
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // not using OpenGL context
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // window not resizable for now
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // window resizable
 
 	window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
+    glfwSetWindowUserPointer(window, this);
+    glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
 }
 
 void Application::createSurface() {
