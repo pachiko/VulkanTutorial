@@ -33,6 +33,7 @@ public:
         createGraphicsPipeline();
         createFramebuffers();
         createCommandPool();
+        createVertexBuffer();
         createCommandBuffers();
         createSyncObjects();
     }
@@ -109,6 +110,13 @@ private:
 
 
     /*
+        Vertex
+    */
+    VkBuffer vertexBuffer;
+    VkDeviceMemory vertexBufferMemory;
+
+
+    /*
         Instance
     */
     void createInstance();
@@ -171,6 +179,19 @@ private:
     void createCommandPool();
     void createCommandBuffers();
     void createSyncObjects();
+
+
+    /*
+        Vertex
+    */
+    void createVertexBuffer();
+
+
+    /*
+        Memory
+    */
+    uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+
 
     /*
         Draw

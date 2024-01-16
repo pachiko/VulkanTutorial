@@ -1,20 +1,18 @@
 #version 450
 
-vec2 positions[3] = vec2[](
-    vec2(0.0, -0.5),
-    vec2(0.5, 0.5),
-    vec2(-0.5, 0.5)
-);
+// layout(location=x) assigns indices to the inputs/outputs
+// dvec3 uses 64 bits, so multiple slots. Eg:
+// layout(location = 0) in dvec3 inPosition;
+// layout(location = 2) in vec3 inColor;
+// See more on OpenGL wiki
 
-vec3 colors[3] = vec3[](
-    vec3(1.0, 0.0, 0.0),
-    vec3(0.0, 1.0, 0.0),
-    vec3(0.0, 0.0, 1.0)
-);
+// vertex attributes (per-vertex properties)
+layout(location = 0) in vec2 inPosition;
+layout(location = 1) in vec3 inColor;
 
 layout(location = 0) out vec3 fragColor;
 
 void main() {
-	gl_Position = vec4(positions[gl_VertexIndex], 0.0, 1.0); // clip-coordinates ie -w to w, but dummy z and w coords
-	fragColor = colors[gl_VertexIndex];
+	gl_Position = vec4(inPosition, 0.0, 1.0); // clip-coordinates ie -w to w, but dummy z and w coords
+	fragColor = inColor;
 }
