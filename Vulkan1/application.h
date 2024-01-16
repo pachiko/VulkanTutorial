@@ -34,6 +34,7 @@ public:
         createFramebuffers();
         createCommandPool();
         createVertexBuffer();
+        createIndexBuffer();
         createCommandBuffers();
         createSyncObjects();
     }
@@ -110,10 +111,12 @@ private:
 
 
     /*
-        Vertex
+        Buffers
     */
     VkBuffer vertexBuffer;
     VkDeviceMemory vertexBufferMemory;
+    VkBuffer indexBuffer;
+    VkDeviceMemory indexBufferMemory;
 
 
     /*
@@ -182,9 +185,10 @@ private:
 
 
     /*
-        Vertex
+        Buffers
     */
     void createVertexBuffer();
+    void createIndexBuffer();
 
 
     /*
