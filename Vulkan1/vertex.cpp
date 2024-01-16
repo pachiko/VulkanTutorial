@@ -30,43 +30,27 @@ std::array<VkVertexInputAttributeDescription, 2> Vertex::getAttributeDescription
 
 
 void Application::createVertexBuffer() {
-    // Create
-    VkBufferCreateInfo bufferInfo{};
-    bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-    bufferInfo.size = sizeof(vertices[0]) * vertices.size(); // total size in bytes
-    bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT; // used in vertex buffer only
-    bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE; // only used by graphics queue, exclusive
+    uint64_t size = sizeof(vertices[0]) * vertices.size();
 
-    if (vkCreateBuffer(device, &bufferInfo, nullptr, &vertexBuffer) != VK_SUCCESS) {
-        throw std::runtime_error("failed to create vertex buffer!");
-    }
+    VkBuffer stagingBuffer;
+    VkDeviceMemory stagingBufferMemory;
 
-    VkMemoryRequirements memRequirements;
-    vkGetBufferMemoryRequirements(device, vertexBuffer, &memRequirements);
+    createBuffer(size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, // source
+        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+        stagingBuffer, stagingBufferMemory);
 
-    // Allocate
-    VkMemoryAllocateInfo allocInfo{};
-    allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-    allocInfo.allocationSize = memRequirements.size;
-    allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits,
-        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-    // Visible = can be written by CPU
-    // Coherent = memory heap that is host coherent, ie mapped memory always matches allocated memory
-    // slightly worse performance than flushing after writing to mapped memory
-    // and then invalidating mapped memory after reading
-    // Both methods do not imply data is actually visible on the GPU. Transfer will still be in background
-    // All the spec guarantees is that transfer is complete during vkQueueSubmit
-
-    if (vkAllocateMemory(device, &allocInfo, nullptr, &vertexBufferMemory) != VK_SUCCESS) {
-        throw std::runtime_error("failed to allocate vertex buffer memory!");
-    }
-
-    // Bind
-    vkBindBufferMemory(device, vertexBuffer, vertexBufferMemory, 0); // offset 0
-
-    // Map
     void* data;
-    vkMapMemory(device, vertexBufferMemory, 0, bufferInfo.size, 0, &data); // offset 0, size
-    memcpy(data, vertices.data(), (size_t)bufferInfo.size);
-    vkUnmapMemory(device, vertexBufferMemory);
+    vkMapMemory(device, stagingBufferMemory, 0, size, 0, &data); // offset 0, size
+    memcpy(data, vertices.data(), (size_t) size);
+    vkUnmapMemory(device, stagingBufferMemory);
+
+    createBuffer(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, // destination
+        VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vertexBuffer, vertexBufferMemory); // device-local memory
+
+    // vertex data is now being loaded from high performance memory.
+    copyBuffer(stagingBuffer, vertexBuffer, size);
+
+    // Cleanup staging stuff
+    vkDestroyBuffer(device, stagingBuffer, nullptr);
+    vkFreeMemory(device, stagingBufferMemory, nullptr);
 }

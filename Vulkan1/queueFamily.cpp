@@ -13,7 +13,7 @@ QueueFamilyIndices Application::findQueueFamilies(VkPhysicalDevice device) {
 
     int i = 0;
     for (const auto& queueFamily : queueFamilies) {
-        if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+        if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) { // Implicitly supports VK_QUEUE_TRANSFER_BIT 
             indices.graphicsFamily = i;
         }
 
