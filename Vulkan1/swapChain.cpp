@@ -1,5 +1,6 @@
 #pragma once
 #include "swapChain.h"
+#include "queueFamily.h"
 
 
 VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {

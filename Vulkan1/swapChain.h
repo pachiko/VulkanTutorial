@@ -5,7 +5,6 @@
 #include <stdexcept>
 
 #include "application.h"
-#include "queueFamily.h"
 
 struct SwapChainSupportDetails {
     VkSurfaceCapabilitiesKHR capabilities;
