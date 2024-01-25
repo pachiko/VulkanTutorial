@@ -34,6 +34,9 @@ public:
         createGraphicsPipeline();
         createFramebuffers();
         createCommandPool();
+        createTextureImage();
+        createTextureImageView();
+        createTextureSampler();
         createVertexBuffer();
         createIndexBuffer();
         createUniformBuffers();
@@ -91,9 +94,22 @@ private:
     VkSwapchainKHR swapChain;
     VkFormat swapChainImageFormat;
     VkExtent2D swapChainExtent;
+
+    /*
+        Images
+    */
     std::vector<VkImage> swapChainImages;
     std::vector<VkImageView> swapChainImageViews; // ImageView can be used as texture but not render target
     std::vector<VkFramebuffer> swapChainFramebuffers;
+
+
+    /*
+        Texture
+    */
+    VkImage textureImage;
+    VkDeviceMemory textureImageMemory;
+    VkImageView textureImageView;
+    VkSampler textureSampler;
 
 
     /*
@@ -174,8 +190,21 @@ private:
     /*
         Image
     */
+    VkImageView createImageView(VkImage image, VkFormat format);
     void createImageViews();
     void createFramebuffers();
+
+
+    /*
+        Texture
+    */
+    void createTextureImage();
+    void createImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage,
+        VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
+    void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
+    void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
+    void createTextureImageView();
+    void createTextureSampler();
 
 
     /*
@@ -197,6 +226,8 @@ private:
     void createCommandPool();
     void createCommandBuffers();
     void createSyncObjects();
+    VkCommandBuffer beginSingleTimeCommands();
+    void endSingleTimeCommands(VkCommandBuffer commandBuffer);
 
 
     /*

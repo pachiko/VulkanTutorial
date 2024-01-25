@@ -69,6 +69,7 @@ void Application::createLogicalDevice() {
     createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 
     VkPhysicalDeviceFeatures deviceFeatures;
+    deviceFeatures.samplerAnisotropy = VK_TRUE;
     vkGetPhysicalDeviceFeatures(physicalDevice, &deviceFeatures);
     createInfo.pEnabledFeatures = &deviceFeatures;
 
@@ -125,6 +126,8 @@ int Application::rateDeviceSuitability(VkPhysicalDevice device) {
     SwapChainSupportDetails swapChainSupport = querySwapChainSupport(device);
     swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
     if (!swapChainAdequate) return 0;
+
+    if (!deviceFeatures.samplerAnisotropy) return 0;
 
     return score;
 }
