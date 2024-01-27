@@ -1,5 +1,4 @@
 #pragma once
-
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32
@@ -32,8 +31,9 @@ public:
         createRenderPass();
         createDescriptorSetLayout();
         createGraphicsPipeline();
-        createFramebuffers();
         createCommandPool();
+        createDepthResources();
+        createFramebuffers();
         createTextureImage();
         createTextureImageView();
         createTextureSampler();
@@ -151,6 +151,14 @@ private:
 
 
     /*
+        Depth
+    */
+    VkImage depthImage; // Only 1, since draw 1
+    VkDeviceMemory depthImageMemory;
+    VkImageView depthImageView;
+
+
+    /*
         Instance
     */
     void createInstance();
@@ -190,7 +198,7 @@ private:
     /*
         Image
     */
-    VkImageView createImageView(VkImage image, VkFormat format);
+    VkImageView createImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
     void createImageViews();
     void createFramebuffers();
 
@@ -260,4 +268,13 @@ private:
     */
     void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
     void drawFrame();
+
+
+    /*
+        Depth
+    */
+    void createDepthResources();
+    VkFormat findDepthFormat();
+    VkFormat findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+
 };

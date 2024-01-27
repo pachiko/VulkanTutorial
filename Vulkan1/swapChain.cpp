@@ -128,6 +128,10 @@ SwapChainSupportDetails Application::querySwapChainSupport(VkPhysicalDevice devi
 }
 
 void Application::cleanupSwapChain() {
+    vkDestroyImageView(device, depthImageView, nullptr);
+    vkDestroyImage(device, depthImage, nullptr);
+    vkFreeMemory(device, depthImageMemory, nullptr);
+
     for (auto framebuffer : swapChainFramebuffers) {
         vkDestroyFramebuffer(device, framebuffer, nullptr);
     }
@@ -153,6 +157,7 @@ void Application::recreateSwapChain() {
 
     createSwapChain();
     createImageViews();
+    createDepthResources();
     createFramebuffers();
 
     // we do not recreate the renderPass for simplicity, but it is possible for it to change
