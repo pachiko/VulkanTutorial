@@ -35,7 +35,7 @@ void Application::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t im
     VkDeviceSize offsets[] = { 0 };
     vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets); // only 1 binding
 
-    vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+    vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
 
     // Dynamic, but need to initialize
     VkViewport viewport{};

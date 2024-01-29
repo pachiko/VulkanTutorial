@@ -3,6 +3,10 @@
 #include "vertex.h"
 
 
+std::vector<Vertex> vertices;
+std::vector<uint32_t> indices;
+
+
 VkVertexInputBindingDescription Vertex::getBindingDescription() {
     VkVertexInputBindingDescription bindingDescription{};
     bindingDescription.binding = 0; // only 1 binding

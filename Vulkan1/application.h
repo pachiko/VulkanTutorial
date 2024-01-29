@@ -9,6 +9,7 @@
 struct QueueFamilyIndices;
 struct SwapChainSupportDetails;
 
+
 class Application {
 public:
     void run() {
@@ -37,6 +38,7 @@ public:
         createTextureImage();
         createTextureImageView();
         createTextureSampler();
+        loadModel();
         createVertexBuffer();
         createIndexBuffer();
         createUniformBuffers();
@@ -236,6 +238,12 @@ private:
     void createSyncObjects();
     VkCommandBuffer beginSingleTimeCommands();
     void endSingleTimeCommands(VkCommandBuffer commandBuffer);
+
+
+    /*
+        Model stuff
+    */
+    void loadModel();
 
 
     /*

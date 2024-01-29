@@ -3,6 +3,7 @@
 #include <stb_image.h>
 #include <stdexcept>
 #include "application.h"
+#include "model.h"
 #include "depth.h"
 
 
@@ -15,7 +16,7 @@ void Application::createTextureImage() {
     int texWidth, texHeight, texChannels;
 
     // Read from file
-    stbi_uc* pixels = stbi_load("../textures/texture.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+    stbi_uc* pixels = stbi_load(TEXTURE_PATH.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     VkDeviceSize imageSize = texWidth * texHeight * 4;
     if (!pixels) {
         throw std::runtime_error("failed to load texture image!");
