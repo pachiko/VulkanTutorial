@@ -39,6 +39,7 @@ void Application::pickPhysicalDevice() {
     // Check if the best candidate (last element) is suitable at all
     if (candidates.rbegin()->first > 0) {
         physicalDevice = candidates.rbegin()->second;
+        msaaSamples = getMaxUsableSampleCount();
     }
     else {
         throw std::runtime_error("failed to find a suitable GPU!");
@@ -69,6 +70,7 @@ void Application::createLogicalDevice() {
 
     VkPhysicalDeviceFeatures deviceFeatures;
     deviceFeatures.samplerAnisotropy = VK_TRUE;
+    deviceFeatures.sampleRateShading = VK_TRUE; // enable sample shading feature for the device
     vkGetPhysicalDeviceFeatures(physicalDevice, &deviceFeatures);
     createInfo.pEnabledFeatures = &deviceFeatures;
 
