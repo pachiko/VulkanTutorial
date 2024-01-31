@@ -1,4 +1,3 @@
-#pragma once
 #include "command.h"
 #include "queueFamily.h"
 

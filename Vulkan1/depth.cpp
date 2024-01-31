@@ -1,4 +1,3 @@
-#pragma once
 #include <stdexcept>
 #include "depth.h"
 

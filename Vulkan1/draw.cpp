@@ -1,4 +1,3 @@
-#pragma once
 #include "draw.h"
 #include "command.h"
 #include "vertex.h"

@@ -1,4 +1,3 @@
-#pragma once
 #include <stdexcept>
 #include <array>
 #include "application.h"

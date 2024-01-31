@@ -1,4 +1,3 @@
-#pragma once
 #include "window.h"
 
 static void framebufferResizeCallback(GLFWwindow* window, int width, int height) {

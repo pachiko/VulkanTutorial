@@ -1,4 +1,3 @@
-#pragma once
 #include "swapChain.h"
 #include "queueFamily.h"
 

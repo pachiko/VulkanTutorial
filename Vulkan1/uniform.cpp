@@ -1,4 +1,3 @@
-#pragma once
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE // OpenGL [-1, 1], Vulkan [0, 1]
 #include <glm/gtc/matrix_transform.hpp>

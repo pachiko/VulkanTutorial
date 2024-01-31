@@ -1,4 +1,3 @@
-#pragma once
 #include <unordered_map>
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
