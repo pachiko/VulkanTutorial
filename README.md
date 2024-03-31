@@ -1,0 +1,4 @@
+-GLFW for windowing  
+-GLM for linear algebra  
+-STB_Image for image loading  
+-TinyObjLoader for loading OBJ models  
