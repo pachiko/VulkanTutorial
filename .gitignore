@@ -1,0 +1,9 @@
+# Visual Studio
+Debug/
+Release/
+.vs/
+*.vcxproj*
+*.sln
+
+# SPIR-V
+*.spv
