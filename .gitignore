@@ -7,3 +7,5 @@ Release/
 
 # SPIR-V
 *.spv
+
+build/
