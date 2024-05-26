@@ -87,8 +87,8 @@ void Application::createRenderPass() {
 
 
 void Application::createGraphicsPipeline() {
-    auto vertShaderCode = readFile("../shaders/vert.spv");
-    auto fragShaderCode = readFile("../shaders/frag.spv");
+    auto vertShaderCode = readFile("../../shaders/shader.vert.spv");
+    auto fragShaderCode = readFile("../../shaders/shader.frag.spv");
 
     // why local? these can be freed after pipeline is created (when SPIR-V bytecode is converted to machine code)
     VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
